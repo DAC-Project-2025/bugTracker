@@ -9,14 +9,18 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bugTracker.config.JwtProvider;
+import com.bugTracker.dao.UserRepository;
 import com.bugTracker.dto.LoginRequestDTO;
 import com.bugTracker.dto.SignupRequestDTO;
+import com.bugTracker.enums.Role;
 import com.bugTracker.models.User;
 import com.bugTracker.response.AuthResponse;
 
 @Service
+@Transactional
 public class AuthServiceImpl implements AuthService {
 	
 	 @Autowired
@@ -35,12 +39,17 @@ public class AuthServiceImpl implements AuthService {
 
 	@Override
 	public AuthResponse registerUser(SignupRequestDTO request) throws Exception {
-		if (userRepository.findByEmail(request.getEmail()) != null) {
+		String normalizedEmail = request.getEmail().trim().toLowerCase();
+		
+		System.out.println("Entered mail ----------------> "+ request.getEmail());
+		System.out.println("repo method "+userRepository.findByEmail(normalizedEmail));
+		if (userRepository.findByEmail(normalizedEmail).isPresent()) {
             throw new Exception("Email Already Exist");
         }
-
+		Role role = Role.valueOf(request.getRole().toUpperCase());
         // Map DTO to Entity
         User newUser = modelMapper.map(request, User.class);
+        newUser.setRole(role);
         newUser.setPassword(passwordEncoder.encode(request.getPassword()));
 
         userRepository.save(newUser);

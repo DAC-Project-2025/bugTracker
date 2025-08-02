@@ -1,6 +1,11 @@
-package com.bugTracker.service;
+package com.bugTracker.dao;
+
+import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.bugTracker.enums.Role;
 import com.bugTracker.models.User;
 
 /**
@@ -24,5 +29,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
      * @param email the email address of the user
      * @return the user entity associated with the given email, or {@code null} if not found
      */
-    public User findByEmail(String email);
+    public Optional<User> findByEmail(String email);
+    public List<User> findByRole(Role role);
 }

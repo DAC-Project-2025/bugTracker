@@ -1,6 +1,10 @@
 package com.bugTracker.models;
 
+import com.bugTracker.enums.Role;
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -21,6 +25,7 @@ public class User {
 	private String name;
 	private String email;
 	private String password;
-	private String role;
+	@Enumerated(EnumType.STRING)
+	private Role role;
 	
 }

@@ -32,7 +32,7 @@ public class AuthController {
 	@PostMapping("/signin")
 	public ResponseEntity<AuthResponse> signin(@RequestBody LoginRequestDTO loginRequest) throws Exception{
 		AuthResponse response = authService.LoginUser(loginRequest);
-		return new ResponseEntity<>(HttpStatus.ACCEPTED);
+		return new ResponseEntity<>(response,HttpStatus.ACCEPTED);
 	}
 	
 }
