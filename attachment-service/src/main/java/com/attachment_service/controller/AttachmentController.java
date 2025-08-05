@@ -1,6 +1,7 @@
 package com.attachment_service.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,13 +16,14 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping("/api/attachments")
 @AllArgsConstructor
-public class AttachmentController {
-	 private final AttachmentService attachmentService;
 
-	 @PostMapping("/upload")
-	 public ResponseEntity<FileUploadResponseDTO> uploadFile(
-	         @RequestParam("file") MultipartFile file,
-	         @RequestParam("fileType") String fileType) {
-	     return ResponseEntity.ok(attachmentService.uploadFile(file, fileType));
-	 }
+public class AttachmentController {
+	private final AttachmentService attachmentService;
+
+	@PostMapping("/upload")
+	@PreAuthorize("hasAnyRole('ADMIN','MANAGER','USER')")
+	public ResponseEntity<FileUploadResponseDTO> uploadFile(@RequestParam("file") MultipartFile file,
+			@RequestParam("fileType") String fileType) {
+		return ResponseEntity.ok(attachmentService.uploadFile(file, fileType));
+	}
 }

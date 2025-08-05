@@ -17,12 +17,11 @@ public class AttachmentServiceApplication {
 	@Bean
 	ModelMapper modelMapper() {
 		System.out.println("creating model mapper");
-		ModelMapper mapper= new ModelMapper();
-		//to transfer only properties matching by name 
-		mapper.getConfiguration()
-		.setMatchingStrategy(MatchingStrategies.STRICT)
-		//transfer not null props
-		.setPropertyCondition(Conditions.isNotNull());
+		ModelMapper mapper = new ModelMapper();
+		// to transfer only properties matching by name
+		mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT)
+				// transfer not null props
+				.setPropertyCondition(Conditions.isNotNull());
 		return mapper;
 	}
 }

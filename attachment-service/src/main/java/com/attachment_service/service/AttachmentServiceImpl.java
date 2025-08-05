@@ -21,32 +21,30 @@ import lombok.AllArgsConstructor;
 public class AttachmentServiceImpl implements AttachmentService {
 
 	private final Cloudinary cloudinary;
-    private final AttachmentRepository attachmentRepository;
-    private final ModelMapper modelMapper;
+	private final AttachmentRepository attachmentRepository;
+	private final ModelMapper modelMapper;
 
-    @Override
-    public FileUploadResponseDTO uploadFile(MultipartFile file, String type) {
-        try {
-        	@SuppressWarnings("unchecked")
-            Map<String, Object> uploadResult = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.asMap(
-                "resource_type", "auto",
-                "folder", type
-            ));
+	@Override
+	public FileUploadResponseDTO uploadFile(MultipartFile file, String type) {
+		try {
+			@SuppressWarnings("unchecked")
+			Map<String, Object> uploadResult = cloudinary.uploader().upload(file.getBytes(),
+					ObjectUtils.asMap("resource_type", "auto", "folder", type));
 
-            // Map to entity
-            Attachment attachment = new Attachment();
-            attachment.setFileUrl((String) uploadResult.get("secure_url"));
-            attachment.setPublicId((String) uploadResult.get("public_id"));
-            attachment.setType(type);
+			// Map to entity
+			Attachment attachment = new Attachment();
+			attachment.setFileUrl((String) uploadResult.get("secure_url"));
+			attachment.setPublicId((String) uploadResult.get("public_id"));
+			attachment.setType(type);
 
-            // Save to DB
-            Attachment saved = attachmentRepository.save(attachment);
+			// Save to DB
+			Attachment saved = attachmentRepository.save(attachment);
 
-            // Map to response DTO
-            return modelMapper.map(saved, FileUploadResponseDTO.class);
+			// Map to response DTO
+			return modelMapper.map(saved, FileUploadResponseDTO.class);
 
-        } catch (IOException e) {
-            throw new RuntimeException("File upload failed", e);
-        }
-    }
+		} catch (IOException e) {
+			throw new RuntimeException("File upload failed", e);
+		}
+	}
 }

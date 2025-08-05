@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class FileUploadRequestDTO {
 	private MultipartFile file;
-    private String fileType; // avatar, document, etc.
+	private String fileType; // avatar, document, etc.
 
 }
