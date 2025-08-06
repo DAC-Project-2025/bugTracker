@@ -29,7 +29,7 @@ public class ProjectService {
 	 private final UserClient userClient;
 	 private final ModelMapper modelMapper;
 
-	 public ProjectResponseDTO createProject(ProjectRequestDTO dto) {
+	 public ProjectResponseDTO createProject(ProjectRequestDTO dto ,String jwt) {
 	        // Map basic project fields
 		 Project project = modelMapper.map(dto, Project.class);
 		 System.out.println("Mapped description: " + project.getDescription());
@@ -49,14 +49,14 @@ public class ProjectService {
 		 List<ProjectMember> members = new ArrayList<>();
 
 	        for (Long userId : dto.getTeamMemberIds()) {
-//	            UserDTO userDto = userClient.getUserById(userId);
+	            UserDTO userDto = userClient.getUserById(userId, jwt);
 	        	
 //-------------temporary data later use above method -----------------
-	        	UserDTO userDto = new UserDTO();
-	        	userDto.setId(userId);
-	        	userDto.setName("Dummy User " + userId);
-	        	userDto.setEmail("dummy" + userId + "@example.com");
-	        	userDto.setRole("DEVELOPER");
+//	        	UserDTO userDto = new UserDTO();
+//	        	userDto.setId(userId);
+//	        	userDto.setName("Dummy User " + userId);
+//	        	userDto.setEmail("dummy" + userId + "@example.com");
+//	        	userDto.setRole("DEVELOPER");
 //---------------------------------------------------------------------
 	            ProjectMember member = new ProjectMember();
 	            member.setProject(project);
