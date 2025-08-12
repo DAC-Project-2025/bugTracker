@@ -1,8 +1,12 @@
 package com.project_service.controller;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,6 +28,12 @@ import lombok.AllArgsConstructor;
 public class ProjectController {
 
 	private final ProjectService projectService;
+	
+	@GetMapping("test")
+	@PreAuthorize("hasAnyRole('ADMIN','MANAGER','USER')")
+	public ResponseEntity<?> testGateway(){
+		return ResponseEntity.ok("projects has been called");
+	}
 
     @PostMapping
     @PreAuthorize("hasAnyRole('ADMIN','MANAGER')")
@@ -40,4 +50,20 @@ public class ProjectController {
         ProjectDetailsDTO details = projectService.getProjectById(id);
         return ResponseEntity.ok(details);
     }
+    @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER')")
+    public ResponseEntity<List<ProjectDetailsDTO>> getAllProjects() {
+        List<ProjectDetailsDTO> allProjects = projectService.getAllProjects();
+        return ResponseEntity.ok(allProjects);
+    }
+    
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER')")
+    public ResponseEntity<?> deleteProject(@PathVariable Long id){
+    	
+    	projectService.deleteProject(id);
+    	
+    	return ResponseEntity.ok(HttpStatus.ACCEPTED);
+    }
+    
 }

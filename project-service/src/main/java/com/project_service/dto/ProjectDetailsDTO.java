@@ -19,6 +19,6 @@ public class ProjectDetailsDTO {
     private String priority;
     private List<String> technologies;
     private LocalDate startDate;
-    private LocalDate dueDate;
+    private LocalDate deadline;
     private List<ProjectMemberDTO> teamMembers;
 }

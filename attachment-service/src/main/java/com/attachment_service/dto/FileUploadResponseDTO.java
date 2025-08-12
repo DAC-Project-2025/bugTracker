@@ -5,6 +5,5 @@ import lombok.Data;
 @Data
 public class FileUploadResponseDTO {
 	private String fileUrl;
-	private String publicId;
-	private String type;
+	private String fileName;
 }

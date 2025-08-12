@@ -3,6 +3,7 @@ package com.project_service.service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -32,20 +33,10 @@ public class ProjectService {
 	 public ProjectResponseDTO createProject(ProjectRequestDTO dto ,String jwt) {
 	        // Map basic project fields
 		 Project project = modelMapper.map(dto, Project.class);
+		 
+		 project.setStatus("N_PROGRESS");
 		 System.out.println("Mapped description: " + project.getDescription());
-		 
-		 
-//		 	Project project = new Project();
-//	        project.setTitle(dto.getTitle());
-//	        project.setDescription(dto.getDescription());
-//	        project.setCategory(dto.getCategory());
-//	        project.setStatus(dto.getStatus());
-//	        project.setPriority(dto.getPriority());
-//	        project.setTechnologies(dto.getTechnologies());
-//	        project.setStartDate(dto.getStartDate());
-//	        project.setDueDate(dto.getDueDate());
-		 
-	        // Manually set team members using Feign
+
 		 List<ProjectMember> members = new ArrayList<>();
 
 	        for (Long userId : dto.getTeamMemberIds()) {
@@ -104,4 +95,25 @@ public class ProjectService {
 		    details.setTeamMembers(memberDTOs);
 		    return details;
 		}
+	 
+	 public List<ProjectDetailsDTO> getAllProjects() {
+		    List<Project> projects = projectRepo.findAll();
+
+		    return projects.stream()
+		        .map(project -> {
+		            ProjectDetailsDTO details = modelMapper.map(project, ProjectDetailsDTO.class);
+
+		            List<ProjectMemberDTO> memberDTOs = project.getTeamMembers().stream()
+		                .map(member -> modelMapper.map(member, ProjectMemberDTO.class))
+		                .collect(Collectors.toList());
+
+		            details.setTeamMembers(memberDTOs);
+		            return details;
+		        }).collect(Collectors.toList());
+		}
+
+	public void deleteProject(Long id) {
+		// TODO Auto-generated method stub
+		projectRepo.deleteById(id);
+	}
 }
