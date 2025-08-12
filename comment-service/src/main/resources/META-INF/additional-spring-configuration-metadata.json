@@ -1,0 +1,10 @@
+{
+  "properties": [
+    {
+      "name": "jwt.secret",
+      "type": "java.lang.String",
+      "description": "JWT secret used for signing and validating tokens",
+      "sourceType": "com.project_service.security.JwtProperties"
+    }
+  ]
+}

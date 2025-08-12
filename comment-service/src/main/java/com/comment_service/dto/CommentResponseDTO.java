@@ -11,11 +11,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CommentResponseDTO {
 	private Long id;
-	private Long taskId;
+	private Long bugId;
 	private Long userId;
 	private String message;
 	private LocalDateTime timestamp;
-
 	private String userName;
 
 }

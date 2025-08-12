@@ -4,9 +4,11 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@FeignClient(name = "USER-SERVICE", url = "")
+import com.comment_service.config.FeignClientConfig;
+
+@FeignClient(name = "Bug-tracker-service", url = "http://localhost:8081" , configuration = FeignClientConfig.class)
 public interface UserClient {
 
-	 @GetMapping("/users/{userId}/name")
-	 String getUserNameById(@PathVariable Long userId);
+	 @GetMapping("/api/user/users/{userId}/name")
+	 String getUserName(@PathVariable Long userId);
 }

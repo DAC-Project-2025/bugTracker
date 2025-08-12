@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.comment_service.model.Comment;
 
 public interface CommentRepository extends	 JpaRepository<Comment, Long> {
-	List<Comment> findByTaskId(Long taskId);
+	List<Comment> findByBugId(Long bugId);
 }

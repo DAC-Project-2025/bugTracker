@@ -22,7 +22,7 @@ public class Comment {
 
 	    private String message;
 
-	    private Long taskId; 
+	    private Long bugId; 
 
 	    private Long userId; 
 

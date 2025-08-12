@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.comment_service.dto.CommentRequestDTO;
 import com.comment_service.dto.CommentResponseDTO;
+import com.comment_service.feign.UserClient;
 import com.comment_service.model.Comment;
 import com.comment_service.repository.CommentRepository;
 
@@ -23,15 +24,15 @@ public class CommentServiceImpl implements CommentService {
 
 	private final CommentRepository commentRepository;
 	// Remove userClient for now or comment it out
-	// private final UserClient userClient;
+	 private final UserClient userClient;
 	private final ModelMapper modelMapper;
 
-	// Temporary dummy user map
-	private static final Map<Long, String> userMap = Map.of(
-		1L, "Akash Kamble",
-		2L, "John Doe",
-		3L, "Jane Smith"
-	);
+//	// Temporary dummy user map
+//	private static final Map<Long, String> userMap = Map.of(
+//		1L, "Akash Kamble",
+//		2L, "John Doe",
+//		3L, "Jane Smith"
+//	);
 
 	
 	/*
@@ -49,18 +50,18 @@ public class CommentServiceImpl implements CommentService {
 		CommentResponseDTO response = modelMapper.map(saved, CommentResponseDTO.class);
 
 		// Replace Feign call with mock name
-		response.setUserName(userMap.getOrDefault(saved.getUserId(), "Unknown"));
+		response.setUserName(userClient.getUserName(saved.getUserId()));
 
 		return response;
 	}
 
 	@Override
-	public List<CommentResponseDTO> getCommentsByTask(Long taskId) {
-		List<Comment> comments = commentRepository.findByTaskId(taskId);
+	public List<CommentResponseDTO> getCommentsByTask(Long bugId) {
+		List<Comment> comments = commentRepository.findByBugId(bugId);
 
 		return comments.stream().map(comment -> {
 			CommentResponseDTO dto = modelMapper.map(comment, CommentResponseDTO.class);
-			dto.setUserName(userMap.getOrDefault(comment.getUserId(), "Unknown"));
+			dto.setUserName(userClient.getUserName(comment.getUserId()));
 			return dto;
 		}).collect(Collectors.toList());
 	}
