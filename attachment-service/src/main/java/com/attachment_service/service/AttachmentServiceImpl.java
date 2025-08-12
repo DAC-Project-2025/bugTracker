@@ -25,17 +25,17 @@ public class AttachmentServiceImpl implements AttachmentService {
 	private final ModelMapper modelMapper;
 
 	@Override
-	public FileUploadResponseDTO uploadFile(MultipartFile file, String type) {
+	public FileUploadResponseDTO uploadFile(MultipartFile file, String fileName) {
 		try {
 			@SuppressWarnings("unchecked")
 			Map<String, Object> uploadResult = cloudinary.uploader().upload(file.getBytes(),
-					ObjectUtils.asMap("resource_type", "auto", "folder", type));
+					ObjectUtils.asMap("resource_type", "auto", "folder", fileName));
 
 			// Map to entity
 			Attachment attachment = new Attachment();
 			attachment.setFileUrl((String) uploadResult.get("secure_url"));
 			attachment.setPublicId((String) uploadResult.get("public_id"));
-			attachment.setType(type);
+			attachment.setFileName(fileName);
 
 			// Save to DB
 			Attachment saved = attachmentRepository.save(attachment);
