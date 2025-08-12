@@ -1,0 +1,64 @@
+server:
+  port: 5050
+
+spring:
+  application:
+    name: GATEWAY-SERVICE
+
+  cloud:
+    gateway:
+      routes:
+        # AUTH + USER
+        - id: USER-SERVICE
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/auth/**,/api/user/**
+
+        # BUG
+        - id: BUG-SERVICE
+          uri: lb://BUG-SERVICE
+          predicates:
+            - Path=/api/bugs/**
+
+        # SUBMISSION
+        - id: TASK-SUBMISSION-SERVICE
+          uri: lb://TASK-SUBMISSION-SERVICE
+          predicates:
+            - Path=/api/submission/**
+
+        # COMMENT
+        - id: COMMENT-SERVICE
+          uri: lb://COMMENT-SERVICE
+          predicates:
+            - Path=/comments/**
+
+        # PROJECT
+        - id: PROJECT-SERVICE
+          uri: lb://PROJECT-SERVICE
+          predicates:
+            - Path=/api/projects/**
+
+        # ATTACHMENT
+        - id: ATTACHMENT-SERVICE
+          uri: lb://ATTACHMENT-SERVICE
+          predicates:
+            - Path=/api/attachments/**
+
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
+
+    globalcors:
+      cors-configurations:
+        '[/**]':
+          allowedOrigins: "*"
+          allowedMethods: "*"
+          allowedHeaders: "*"
+
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    fetchRegistry: true
+    registerWithEureka: true
+    serviceUrl:
+      defaultZone: http://localhost:8070/eureka/
