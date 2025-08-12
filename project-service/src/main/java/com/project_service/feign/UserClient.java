@@ -9,7 +9,7 @@ import com.project_service.config.FeignClientConfig;
 import com.project_service.dto.UserDTO;
 
 
-@FeignClient(name = "auth-service", url = "http://localhost:8081/api", configuration = FeignClientConfig.class)
+@FeignClient(name = "user-service", url = "http://localhost:8081/api/user", configuration = FeignClientConfig.class)
 public interface UserClient {
 	@GetMapping("/users/{id}")
     UserDTO getUserById(@PathVariable("id") Long userId, @RequestHeader("Authorization") String token);

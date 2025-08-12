@@ -28,6 +28,7 @@ public class Project {
 	    private String title;
 	    private String description;
 	    private String category;
+	    
 	    private String status;
 	    private String priority;
 
@@ -35,7 +36,7 @@ public class Project {
 	    private List<String> technologies;
 
 	    private LocalDate startDate;
-	    private LocalDate dueDate;
+	    private LocalDate deadline;
 
 	    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
 	    private List<ProjectMember> teamMembers = new ArrayList<>();
