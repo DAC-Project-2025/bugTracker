@@ -1,0 +1,18 @@
+#spring.application.name=bug-service
+
+server:
+  port: 5002
+
+spring:
+  application:
+    name: BUG-SERVICE
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/bug_service
+    username: root
+    password: root123
+    driver-class-name: com.mysql.cj.jdbc.Driver
