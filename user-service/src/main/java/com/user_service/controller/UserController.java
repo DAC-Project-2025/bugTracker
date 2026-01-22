@@ -14,10 +14,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.user_service.dto.request.UpdateProfileRequest;
 import com.user_service.dto.response.UserResponse;
 import com.user_service.enums.UserStatus;
 import com.user_service.service.JwtService;
-import com.user_service.service.UsersService;
+import com.user_service.service.UserService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -32,7 +33,7 @@ import lombok.RequiredArgsConstructor;
 @Tag(name = "Users", description = "User management endpoints")
 public class UserController {
 
-	private final UsersService userService;
+	private final UserService userService;
     private final JwtService jwtService;
 
     @GetMapping("/me")

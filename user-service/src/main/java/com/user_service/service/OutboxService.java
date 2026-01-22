@@ -53,11 +53,13 @@ public class OutboxService {
      */
     @Transactional
     public void markAsPublished(UUID outboxId) {
-        outboxRepository.findById(outboxId).ifPresent(outbox -> {
-            outbox.markAsPublished();
-            outboxRepository.save(outbox);
-            log.debug("Outbox event marked as published: {}", outboxId);
-        });
+    	int updated = outboxRepository.markAsPublished(outboxId);
+
+        if (updated == 0) {
+            throw new IllegalStateException("Outbox not found: " + outboxId);
+        }
+
+        log.debug("Outbox event marked as published: {}", outboxId);
     }
 
     /**
@@ -71,4 +73,10 @@ public class OutboxService {
             log.warn("Outbox event marked as failed: {}. Error: {}", outboxId, errorMessage);
         });
     }
+    
+    @Transactional
+    public void markAsProcessing(UUID id) {
+        outboxRepository.markAsProcessing(id);
+    }
+
 }

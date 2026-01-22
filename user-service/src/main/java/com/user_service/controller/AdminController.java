@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.user_service.dto.request.AssignRoleRequest;
 import com.user_service.service.JwtService;
+import com.user_service.service.UserService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;

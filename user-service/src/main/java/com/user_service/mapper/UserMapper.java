@@ -6,10 +6,10 @@ import java.util.stream.Collectors;
 import org.mapstruct.Mapping;
 
 import com.user_service.dto.request.RegisterRequest;
+import com.user_service.dto.response.RoleResponse;
 import com.user_service.dto.response.UserResponse;
 import com.user_service.models.User;
 import com.user_service.models.UserRole;
-import com.user_service.response.RoleResponse;
 
 
 public interface UserMapper {

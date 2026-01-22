@@ -8,12 +8,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.user_service.dto.request.LoginRequest;
 import com.user_service.dto.request.RefreshTokenRequest;
 import com.user_service.dto.request.RegisterRequest;
 import com.user_service.dto.request.VerifyEmailRequest;
 import com.user_service.dto.request.VerifyOtpRequest;
+import com.user_service.dto.response.AuthResponse;
 import com.user_service.dto.response.VerificationResponse;
-import com.user_service.response.AuthResponse;
 import com.user_service.service.AuthenticationService;
 
 import io.swagger.v3.oas.annotations.Operation;

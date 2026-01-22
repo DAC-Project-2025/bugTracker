@@ -1,10 +1,11 @@
 package com.user_service.repository;
 
-import java.awt.print.Pageable;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -26,4 +27,12 @@ public interface OutboxRepository extends JpaRepository<Outbox, UUID>{
     int deleteOldPublishedEvents(@Param("before") LocalDateTime before);
     
     long countByStatus(OutboxStatus status);
+    
+    @Modifying
+    @Query(" UPDATE Outbox o SET o.status = 'PUBLISHED', o.publishedAt = CURRENT_TIMESTAMP WHERE o.id = :id ")
+    int markAsPublished(@Param("id") UUID id);
+    
+    @Modifying
+    @Query("UPDATE Outbox o SET o.status = 'PROCESSING' WHERE o.id = :id")
+    int markAsProcessing(@Param("id") UUID id);
 }

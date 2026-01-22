@@ -1,4 +1,4 @@
-package com.user_service.controller;
+package com.user_service.dto.request;
 
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
