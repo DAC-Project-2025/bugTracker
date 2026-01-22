@@ -8,10 +8,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.user_service.config.JwtProvider;
-import com.user_service.dao.UserRepository;
-import com.user_service.dto.ProfileDTO;
-import com.user_service.enums.Role;
+import com.user_service.dto.response.ProfileDTO;
+import com.user_service.enums.RoleType;
 import com.user_service.models.User;
+import com.user_service.repository.UserRepository;
 
 import lombok.AllArgsConstructor;
 
@@ -26,7 +26,7 @@ public class UserServiceImpl implements UsersService{
 	
 	@Override
 	public List<ProfileDTO> getAllUsers() {
-		Role role = Role.valueOf("user".toUpperCase());
+		RoleType role = RoleType.valueOf("user".toUpperCase());
 		List<User> users = userRepository.findByRole(role);
 		
 		return users.stream()
@@ -78,7 +78,7 @@ public class UserServiceImpl implements UsersService{
 	@Override
 	public List<ProfileDTO> getAllUsersByRole() {
 	    // Assuming Role is an enum, import it properly
-	    Role role = Role.USER;  // or Role.valueOf("USER");
+	    RoleType role = RoleType.USER;  // or Role.valueOf("USER");
 	    
 	    // Fetch users by role (assuming the repo method takes Role or String)
 	    List<User> users = userRepository.findByRole(role);

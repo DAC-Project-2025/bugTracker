@@ -12,11 +12,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.user_service.config.JwtProvider;
-import com.user_service.dao.UserRepository;
-import com.user_service.dto.LoginRequestDTO;
-import com.user_service.dto.SignupRequestDTO;
-import com.user_service.enums.Role;
+import com.user_service.dto.request.LoginRequestDTO;
+import com.user_service.dto.response.SignupRequestDTO;
+import com.user_service.enums.RoleType;
 import com.user_service.models.User;
+import com.user_service.repository.UserRepository;
 import com.user_service.response.AuthResponse;
 
 @Service
@@ -46,7 +46,7 @@ public class AuthServiceImpl implements AuthService {
 		if (userRepository.findByEmail(normalizedEmail).isPresent()) {
             throw new Exception("Email Already Exist");
         }
-		Role role = Role.valueOf(request.getRole().toUpperCase());
+		RoleType role = RoleType.valueOf(request.getRole().toUpperCase());
         // Map DTO to Entity
         User newUser = modelMapper.map(request, User.class);
         newUser.setRole(role);

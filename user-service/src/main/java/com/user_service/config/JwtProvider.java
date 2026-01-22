@@ -24,11 +24,11 @@ private static SecretKey key=Keys.hmacShaKeyFor(JwtConstant.SECRET_KEY.getBytes(
 	    String roles = populateAuthorities(authorities);
 
 		String jwt=Jwts.builder()
-				.setIssuedAt(new Date())
-				.setExpiration(new Date(new Date().getTime()+86400000))
+				.issuedAt(new Date())
+				.expiration(new Date(new Date().getTime()+86400000))
 				.claim("email",auth.getName())
 				.claim("authorities", roles)
-				.signWith(key)
+				.signWith(key, Jwts.SIG.HS256)
 				.compact();
 		return jwt;
 		
@@ -37,7 +37,11 @@ private static SecretKey key=Keys.hmacShaKeyFor(JwtConstant.SECRET_KEY.getBytes(
 	public static String getEmailFromJwtToken(String jwt) {
 		jwt=jwt.substring(7);
 		
-		Claims claims=Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(jwt).getBody();
+		Claims claims=Jwts.parser()
+				.verifyWith(key)
+				.build()
+				.parseSignedClaims(jwt)
+				.getPayload();
 		String email=String.valueOf(claims.get("email"));
 		
 		return email;

@@ -40,7 +40,11 @@ String jwt = request.getHeader(JwtConstant.JWT_HEADER);
 				
 				SecretKey key= Keys.hmacShaKeyFor(JwtConstant.SECRET_KEY.getBytes());
 				
-				Claims claims=Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(jwt).getBody();
+				Claims claims=Jwts.parser()
+						.verifyWith(key)
+						.build()
+						.parseSignedClaims(jwt)
+						.getPayload();
 				
 				String email=String.valueOf(claims.get("email"));
 				

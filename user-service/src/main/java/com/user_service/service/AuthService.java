@@ -2,8 +2,8 @@ package com.user_service.service;
 
 import org.springframework.security.core.Authentication;
 
-import com.user_service.dto.LoginRequestDTO;
-import com.user_service.dto.SignupRequestDTO;
+import com.user_service.dto.request.LoginRequestDTO;
+import com.user_service.dto.response.SignupRequestDTO;
 import com.user_service.response.AuthResponse;
 
 public interface AuthService {
